@@ -10,7 +10,7 @@ service that provides accurate sales tax calculations in the US.
 
 Useful documentation:
 
-* `Avalara docs <http://developer.avalara.com/api-docs/>`_
+* `Avalara docs <https://developer.avalara.com/avalara-apis/>`_
 
 Status:
 

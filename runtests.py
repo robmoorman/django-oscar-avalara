@@ -15,6 +15,7 @@ if not settings.configured:
         'AVALARY_RUN_EXTERNAL_TESTS': False,
         'AVALARY_DEVELOPMENT': False,
     }
+    locals = {key: value for key, value in locals().items() if value}
     # To specify integration settings (which include passwords, hence why they
     # are not committed), create an integration.py module.
     try:
@@ -26,12 +27,12 @@ if not settings.configured:
             'AVALARA_COMPANY_CODE': '',
         })
     else:
-        for key, value in locals().items():
+        for key, value in locals.items():
             if key.startswith('AVALARY'):
                 extra_settings[key] = value
 
     from oscar.defaults import *
-    for key, value in locals().items():
+    for key, value in locals.items():
         if key.startswith('OSCAR'):
             extra_settings[key] = value
     extra_settings['OSCAR_ALLOW_ANON_CHECKOUT'] = True
@@ -54,7 +55,6 @@ if not settings.configured:
             'django.contrib.staticfiles',
             'avalara',
             'compressor',
-            'south',
         ] + get_core_apps(),
         MIDDLEWARE_CLASSES=(
             'django.middleware.common.CommonMiddleware',
@@ -88,10 +88,6 @@ from django_nose import NoseTestSuiteRunner
 
 
 def run_tests(*test_args):
-    if 'south' in settings.INSTALLED_APPS:
-        from south.management.commands import patch_for_test_db_setup
-        patch_for_test_db_setup()
-
     if not test_args:
         test_args = ['tests']
 
@@ -105,7 +101,7 @@ def run_tests(*test_args):
 
     if num_failures > 0:
         sys.exit(num_failures)
-    print "Generating HTML coverage report"
+    print("Generating HTML coverage report")
     c.html_report()
 
 

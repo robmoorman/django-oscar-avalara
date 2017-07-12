@@ -6,7 +6,7 @@ import json
 import purl
 import requests
 
-from . import models, exceptions
+from avalara import models, exceptions
 
 __all__ = ['get_tax', 'post_tax']
 

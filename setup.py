@@ -14,9 +14,10 @@ setup(name='django-oscar-avalara',
       packages=find_packages(exclude=['sandbox*', 'tests*']),
       include_package_data=True,
       install_requires=[
-          'django-oscar>=1.0',
+          'django>=1.8.8,<1.12',
+          'django-oscar>=1.3,<1.5',
           'requests',
-          'purl>=0.8',
+          'purl>=1.3.1,<1.4',
       ],
       # See http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

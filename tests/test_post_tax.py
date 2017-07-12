@@ -2,7 +2,7 @@ from django.test import TestCase
 import mock
 from decimal import Decimal as D
 
-import avalara
+from avalara import exceptions
 from . import responses
 
 
@@ -35,7 +35,7 @@ class TestPostTaxErrorResponse(TestCase):
     def setUp(self):
         try:
             post_tax(responses.SUCCESS)
-        except avalara.AvalaraError:
+        except exceptions.AvalaraError:
             self.fail("Error responses should raise an exception")
 
     def test_creates_audit_model(self):

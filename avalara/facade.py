@@ -11,7 +11,7 @@ from django.core import exceptions
 from django.conf import settings
 from oscar.core.loading import get_class, get_model
 
-from . import gateway
+from avalara import gateway
 
 OrderTotalCalculator = get_class(
     'checkout.calculators', 'OrderTotalCalculator')

@@ -1,12 +1,9 @@
-from django.conf.urls import patterns, include
+from django.conf.urls import include, url
 from django.contrib import admin
-from oscar.app import shop
+from oscar.app import application
 
 
-admin.autodiscover()
-
-
-urlpatterns = patterns('',
-    (r'^admin/', include(admin.site.urls)),
-    (r'', include(shop.urls)),
-)
+urlpatterns = [
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'', include(application.urls)),
+]

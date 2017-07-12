@@ -4,7 +4,7 @@ from oscar.apps.checkout import views
 from django.contrib import messages
 from django.template import loader
 
-import avalara
+from avalara import exceptions
 
 logger = logging.getLogger('avalara')
 
@@ -20,7 +20,7 @@ class PaymentDetailsView(views.PaymentDetailsView):
         # Fetch and apply taxes to submission dict
         try:
             avalara.apply_taxes_to_submission(submission)
-        except avalara.InvalidAddress, e:
+        except exceptions.InvalidAddress as e:
             msg = loader.render_to_string(
                 'avalara/messages/invalid_address.html',
                 {'error': e.message})

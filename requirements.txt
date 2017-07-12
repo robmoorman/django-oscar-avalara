@@ -1,6 +1,7 @@
 # Testing
 mock==2.0.0
 django-nose==1.4.4
+django-oscar==1.4
 spec==1.4.0
 coverage==4.4.1
 django-dynamic-fixture

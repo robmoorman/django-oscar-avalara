@@ -179,11 +179,11 @@ INSTALLED_APPS = [
     'avalara',
 ]
 from oscar import get_core_apps
-INSTALLED_APPS += get_core_apps(
-    ['apps.partner',
-     'apps.shipping',
-     'apps.checkout']
-)
+INSTALLED_APPS += get_core_apps([
+    'apps.checkout',
+    'apps.partner',
+    'apps.shipping',
+])
 
 AUTHENTICATION_BACKENDS = (
     'oscar.apps.customer.auth_backends.Emailbackend',

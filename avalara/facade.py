@@ -49,6 +49,8 @@ def apply_taxes(user, basket, shipping_address, shipping_method, shipping_charge
     """
     data = fetch_tax_info(user, basket, shipping_address, shipping_method, shipping_charge)
 
+    print(data)
+
     # Build hash table of line_id => tax
     line_taxes = {}
     for tax_line in data['TaxLines']:
@@ -70,7 +72,7 @@ def apply_taxes(user, basket, shipping_address, shipping_method, shipping_charge
         # model but that isn't a problem.
         unit_tax = line_taxes[str(line.id)] / line.quantity
         line.purchase_info.price.tax = unit_tax
-    shipping_charge.tax = line_taxes['SHIPPING']
+    # shipping_charge.tax = line_taxes['SHIPPING']
 
 
 def submit(order):
@@ -153,6 +155,7 @@ def _build_payload(doc_type, doc_code, user, lines, shipping_address,
         'City': shipping_address.city,
         'Region': shipping_address.state,
         'PostalCode': shipping_address.postcode,
+        'Country': shipping_address.country.code,
     }
     payload['Addresses'].append(address)
 
@@ -180,6 +183,7 @@ def _build_payload(doc_type, doc_code, user, lines, shipping_address,
                 'City': partner_address.city,
                 'Region': partner_address.state,
                 'PostalCode': partner_address.postcode,
+                'Country': shipping_address.country.code,
             })
             partner_address_codes.append(partner_address_code)
 
@@ -203,17 +207,19 @@ def _build_payload(doc_type, doc_code, user, lines, shipping_address,
 
     # Shipping (treated as another line).  We assume origin address is the
     # first partner address
-    line = {
-        'LineNo': 'SHIPPING',
-        'DestinationCode': address_code,
-        'OriginCode': partner_address_codes[0],
-        'ItemCode': '',
-        'Description': shipping_method,
-        'Qty': 1,
-        'Amount': str(shipping_charge),
-        'TaxCode': 'FR',  # Special code for shipping
-    }
-    payload['Lines'].append(line)
+    # line = {
+    #     'LineNo': 'SHIPPING',
+    #     'DestinationCode': address_code,
+    #     'OriginCode': partner_address_codes[0],
+    #     'ItemCode': '',
+    #     'Description': shipping_method,
+    #     'Qty': 1,
+    #     'Amount': str(shipping_charge),
+    #     'TaxCode': 'FR',  # Special code for shipping
+    # }
+    # payload['Lines'].append(line)
+
+    print('Payload:', payload)
 
     return payload
 

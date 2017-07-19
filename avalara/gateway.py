@@ -33,6 +33,8 @@ def fetch(method, url_template, url_params=None, payload=None):
         host = 'development.avalara.net'
     url = url.scheme('https').host(host).as_string()
 
+    print('URL:', url)
+
     # Make request
     headers = {
         'Accept': 'application/json'}
@@ -88,4 +90,5 @@ def post_tax(payload):
 
     http://developer.avalara.com/api-docs/rest/tax/post
     """
+    print('FETCH:', URL_TEMPLATES['post_tax'])
     return fetch('POST', URL_TEMPLATES['post_tax'], payload=payload)

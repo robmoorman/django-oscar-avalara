@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 import logging
 from coverage import coverage
@@ -11,25 +12,14 @@ from oscar import get_core_apps
 logging.disable(logging.CRITICAL)
 
 if not settings.configured:
+    print('NO SETTINGS CONFIGURE')
     extra_settings = {
         'AVALARY_RUN_EXTERNAL_TESTS': False,
         'AVALARY_DEVELOPMENT': False,
     }
+    print(locals().items())
+    print('DONE')
     locals = {key: value for key, value in locals().items() if value}
-    # To specify integration settings (which include passwords, hence why they
-    # are not committed), create an integration.py module.
-    try:
-        from integration import *
-    except ImportError:
-        extra_settings.update({
-            'AVALARA_ACCOUNT_NUMBER': '',
-            'AVALARA_LICENSE_KEY': '',
-            'AVALARA_COMPANY_CODE': '',
-        })
-    else:
-        for key, value in locals.items():
-            if key.startswith('AVALARY'):
-                extra_settings[key] = value
 
     from oscar.defaults import *
     for key, value in locals.items():
@@ -54,7 +44,6 @@ if not settings.configured:
             'django.contrib.flatpages',
             'django.contrib.staticfiles',
             'avalara',
-            'compressor',
         ] + get_core_apps(),
         MIDDLEWARE_CLASSES=(
             'django.middleware.common.CommonMiddleware',

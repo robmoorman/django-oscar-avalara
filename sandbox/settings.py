@@ -1,5 +1,7 @@
 import os
 
+from django.utils.translation import ugettext_lazy as _
+
 # Django settings for sandbox project.
 location = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 
@@ -32,6 +34,11 @@ TIME_ZONE = 'Europe/London'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
+
+LANGUAGES = [
+    ('en', _('English')),
+]
+
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
@@ -96,22 +103,23 @@ TEMPLATES = [
             'loaders': (
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
+                'django.template.loaders.eggs.Loader',
             ),
             'context_processors': (
                 'django.contrib.auth.context_processors.auth',
-                'django.core.context_processors.request',
-                'django.core.context_processors.debug',
-                'django.core.context_processors.i18n',
-                'django.core.context_processors.media',
-                'django.core.context_processors.static',
+                'django.template.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
                 # Oscar specific
                 'oscar.apps.search.context_processors.search_form',
+                'oscar.apps.customer.notifications.context_processors.notifications',
                 'oscar.apps.promotions.context_processors.promotions',
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.core.context_processors.metadata',
             ),
-            'builtins': [],
         },
     },
 ]
@@ -175,6 +183,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
+    'widget_tweaks',
     # External apps
     'avalara',
 ]
@@ -206,8 +215,3 @@ HAYSTACK_CONNECTIONS = {
 
 OSCAR_SHOP_TAGLINE = 'Avalara'
 OSCAR_DEFAULT_CURRENCY = 'USD'
-
-try:
-    from integration import *
-except ImportError:
-    pass
